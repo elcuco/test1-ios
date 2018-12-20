@@ -1,3 +1,16 @@
-PODFILE CHECKSUM: 1569cc92882a00a939c968080e346a64730c1832
+PODS:
+  - Clocket (1.0.1)
+
+DEPENDENCIES:
+  - Clocket
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Clocket
+
+SPEC CHECKSUMS:
+  Clocket: b3e98752b83d4e1b17f613f489bf51a2dab18bb1
+
+PODFILE CHECKSUM: 29110027abe69c0bb73b6dca44768068a8df1981
 
 COCOAPODS: 1.5.3

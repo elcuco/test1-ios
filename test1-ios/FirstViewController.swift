@@ -7,12 +7,22 @@
 //
 
 import UIKit
+import Clocket
 
 class FirstViewController: UIViewController {
-
+    
+    @IBOutlet weak var userName: UITextField!
+    
+    @IBOutlet weak var currentDateDisplay: UILabel!
+    @IBOutlet weak var clock: Clocket!
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        clock.displayRealTime = true
+        clock.startClock()
+        
+        let date = Date()
+        let formattedDate = DateFormatter.localizedString(from: date, dateStyle: .full, timeStyle: .none)
+        currentDateDisplay.text = formattedDate
     }
 
 

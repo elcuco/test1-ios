@@ -142,6 +142,7 @@
 				F118436F21CBACEF00EE4DF0 /* Sources */,
 				F118437021CBACEF00EE4DF0 /* Frameworks */,
 				F118437121CBACEF00EE4DF0 /* Resources */,
+				026DB4265E8F51ABB4080028 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -230,6 +231,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		026DB4265E8F51ABB4080028 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-test1-ios/Pods-test1-ios-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Clocket/Clocket.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Clocket.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-test1-ios/Pods-test1-ios-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		977772D935E94CFB73D674F2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
