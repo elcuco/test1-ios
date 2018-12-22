@@ -9,6 +9,7 @@ target 'test1-ios' do
 
   # Pods for test1-ios
   pod 'Clocket'
+  pod 'FeedKit'
   
   target 'test1-iosTests' do
     inherit! :search_paths

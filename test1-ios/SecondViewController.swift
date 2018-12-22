@@ -7,14 +7,142 @@
 //
 
 import UIKit
+import FeedKit
 
-class SecondViewController: UIViewController {
-
+class SecondViewController: UIViewController, UITableViewDataSource {
+    
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    @IBOutlet weak var mainTable: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        mainTable.dataSource = self
+        
+        fetchBuisinessRss()
     }
 
+    @IBAction func segmentedControlChanged(_ segment: UISegmentedControl) {
+        switch segment.selectedSegmentIndex {
+        case 0:
+            fetchBuisinessRss()
+            break
+        case 1:
+            fetchEnvironmentRss()
+            fetchEntertaintmentRss()
+            break
+        default:
+            print("FAIL?")
+        }
+    }
+    
+    var feeds: [String: RSSFeed?] = [:]
+    var feedItems: [String: [RSSFeedItem]] = [:]
 
+    func fetchFeed( _ name: String) {
+        print("Start loading " + name  )
+        
+        // OK - FAIL
+        // why http? why Reuters does not support HTTPS for these feeds, so
+        // I am forced to allow http for the that domain.
+        // Another option -
+        //   Feedkit internally uses Data(URL) for getting the xml. Instead I
+        //   could use another transport library, and for those specific calls
+        //   ignore the HTTPS issue.
+        //   However - using HTTP is secure for this, as we only fetch data,
+        //   and this is RO data only.
+        let url = "http://feeds.reuters.com/reuters/" + name
+        let feedURL = URL(string: url)!
+        let parser = FeedParser(URL: feedURL)
+        parser.parseAsync(queue: DispatchQueue.global(qos: .userInitiated)) { (result) in
+            print("Finish loading " + name  )
+            
+            // in theory - we don't need this. But I am keeping it,
+            // just in case... Probably a mistake
+            self.feeds[name] = result.rssFeed
+            
+            self.feedItems[name] = result.rssFeed?.items
+            
+            // and this is the epic hack - I merge both feeds into one
+            self.feedItems["mixed"] =
+                (self.feeds["entertainment"]??.items ?? []) +
+                (self.feeds["environment"]??.items ?? [])
+            DispatchQueue.main.async {
+                self.mainTable.reloadData()
+            }
+        }
+    }
+    
+    func fetchBuisinessRss() {
+        fetchFeed("businessNews")
+    }
+    
+    func fetchEntertaintmentRss() {
+        fetchFeed("entertainment")
+    }
+    
+    func fetchEnvironmentRss() {
+        fetchFeed("environment")
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////
+    // UITable
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch self.segmentedControl.selectedSegmentIndex {
+        case 0:
+            if let feeds = self.feeds["businessNews"]  {
+                return feeds?.items?.count ?? 0
+            }
+            return 0
+        case 1:
+            if let feeds = self.feedItems["mixed"]  {
+                return feeds.count
+            }
+            return 0
+        default:
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "rssLine")!
+        var text = "FAIL"
+        var subText = "...?"
+        var image = UIImage()
+        
+        switch self.segmentedControl.selectedSegmentIndex {
+        case 0:
+            if let feedItems = self.feedItems["businessNews"] {
+                text = feedItems[indexPath.row].title ?? "FAIL #\(indexPath.row)"
+                subText = feedItems[indexPath.row].description ?? ".."
+//                image = self.feeds["businessNews"]??.image?.url
+            }
+            break
+        case 1:
+            if let feedItems = self.feedItems["mixed"] {
+                text = feedItems[indexPath.row].title ?? "FAIL #\(indexPath.row)"
+                subText = feedItems[indexPath.row].description ?? ".."
+                
+                // ok, I admit this is ugly.. it will not scale.
+/*
+                image = indexPath.row < (self.feedItems["environment"]?.count ?? 0) ?
+                    self.feeds["environment"]??.image?.url :
+                    self.feeds["entertainment"]??.image?.url
+ */
+            }
+            break
+        default:
+            text = "Double FAIL #\(indexPath.row) -"
+            subText = "..."
+        }
+            
+        cell.textLabel?.text = text
+        cell.detailTextLabel?.text = subText
+//        cell.imageView =
+        return cell
+    }
 }
 

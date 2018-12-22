@@ -1,16 +1,20 @@
 PODS:
   - Clocket (1.0.1)
+  - FeedKit (8.0.0)
 
 DEPENDENCIES:
   - Clocket
+  - FeedKit
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Clocket
+    - FeedKit
 
 SPEC CHECKSUMS:
   Clocket: b3e98752b83d4e1b17f613f489bf51a2dab18bb1
+  FeedKit: 4a78f07adf7f0a224b904014678f1de82a7ffc21
 
-PODFILE CHECKSUM: 29110027abe69c0bb73b6dca44768068a8df1981
+PODFILE CHECKSUM: eeb234f07754cbfb3f5f79e5aecb090dd92a4dcd
 
 COCOAPODS: 1.5.3
