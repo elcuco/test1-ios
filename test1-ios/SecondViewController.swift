@@ -26,6 +26,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     @IBAction func segmentedControlChanged(_ segment: UISegmentedControl) {
+        self.feedDetails.loadHTMLString("", baseURL: nil)
         switch segment.selectedSegmentIndex {
         case 0:
             fetchBuisinessRss()
@@ -154,8 +155,6 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func feedsForIndex(indexPath: IndexPath) -> RSSFeedItem? {
-        self.feedDetails.loadHTMLString("", baseURL: nil)
-
         switch self.segmentedControl.selectedSegmentIndex {
         case 0:
             if let feedItems = self.feedItems["businessNews"] {
