@@ -137,19 +137,23 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let feed = feedsForIndex(indexPath: indexPath)
-        if let content = feed?.content?.contentEncoded {
+        if let content = feed?.description {
             self.feedDetails.isHidden = false
             self.feedDetails.loadHTMLString(content, baseURL: nil)
+/*
             if let link = feed?.link {
                 let request = URLRequest(url: URL(string: link)!)
-//                self.feedDetails.load(request)
+                self.feedDetails.load(request)
             }
+ */
         } else {
             self.feedDetails.isHidden = true
         }
     }
     
     func feedsForIndex(indexPath: IndexPath) -> RSSFeedItem? {
+        self.feedDetails.loadHTMLString("", baseURL: nil)
+
         switch self.segmentedControl.selectedSegmentIndex {
         case 0:
             if let feedItems = self.feedItems["businessNews"] {
