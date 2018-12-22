@@ -109,10 +109,16 @@ class SecondViewController: UIViewController, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var text = "FAIL"
-        var subText = "...?"        
+        var subText = "...?"
+        
         if let item = feedsForIndex(indexPath: indexPath) {
             text = item.title ?? "FAIL #\(indexPath.row)"
-            subText = item.description ?? ".."
+            if item.pubDate != nil {
+                let formatter = DateFormatter()
+                formatter.dateStyle = .medium
+                formatter.timeStyle = .medium
+                subText = formatter.string(from: item.pubDate!)
+            }
         }
             
         let cell = tableView.dequeueReusableCell(withIdentifier: "rssLine")!
