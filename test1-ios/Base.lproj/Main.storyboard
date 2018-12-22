@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Details-->
+        <!--Home-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
                 <viewController id="9pv-A4-QxB" customClass="FirstViewController" customModule="test1_ios" customModuleProvider="target" sceneMemberID="viewController">
@@ -40,7 +40,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Empty label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AlH-A5-Rhx">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AlH-A5-Rhx">
                                 <rect key="frame" x="16" y="176" width="343" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="Kk8-f4-CqH"/>
@@ -67,10 +67,11 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="PQr-Ze-W5v"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Details" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="first" id="acW-dT-cKf"/>
                     <connections>
                         <outlet property="clock" destination="Gkk-Pu-BgK" id="ZyB-Ql-0xW"/>
                         <outlet property="currentDateDisplay" destination="SKP-y5-7M1" id="eeH-wt-R2B"/>
+                        <outlet property="lastSelectedFeedLabel" destination="AlH-A5-Rhx" id="DzT-bR-apT"/>
                         <outlet property="userName" destination="B1n-6L-4Yl" id="3AM-Pw-Lod"/>
                     </connections>
                 </viewController>
@@ -86,21 +87,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="X8P-RL-OwI">
-                                <rect key="frame" x="0.0" y="591" width="375" height="28"/>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GZX-PJ-hbt">
+                                <rect key="frame" x="8" y="463" width="359" height="120"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="27" id="O9f-Ja-Ygx"/>
+                                    <constraint firstAttribute="height" constant="120" id="lbX-70-Ja1"/>
                                 </constraints>
-                                <segments>
-                                    <segment title="Business"/>
-                                    <segment title="Entertainment/Environment"/>
-                                </segments>
-                                <connections>
-                                    <action selector="segmentedControlChanged:" destination="8rJ-Kc-sve" eventType="valueChanged" id="vJw-QH-IC0"/>
-                                </connections>
-                            </segmentedControl>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Lis-JP-sWT">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="447"/>
+                                <wkWebViewConfiguration key="configuration" applicationNameForUserAgent="Test">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences" minimumFontSize="60"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mFL-rd-BI4">
+                                <rect key="frame" x="0.0" y="461" width="375" height="2"/>
+                                <color key="backgroundColor" red="0.2000420094" green="0.39955246449999998" blue="0.59970140459999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="6ZC-ow-uc7"/>
+                                </constraints>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Lis-JP-sWT">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="461"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="rssLine" textLabel="0s6-pO-JNd" detailTextLabel="4SS-aK-msH" style="IBUITableViewCellStyleSubtitle" id="QgQ-P6-xmq">
@@ -129,39 +135,46 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GZX-PJ-hbt">
-                                <rect key="frame" x="8" y="455" width="359" height="128"/>
-                                <color key="backgroundColor" red="0.36078431372549019" green="0.38823529411764707" blue="0.40392156862745099" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="128" id="wg8-qw-K4e"/>
-                                </constraints>
-                                <wkWebViewConfiguration key="configuration" applicationNameForUserAgent="Test">
-                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                                    <wkPreferences key="preferences" minimumFontSize="60"/>
-                                </wkWebViewConfiguration>
-                            </wkWebView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="1hJ-yC-ttm">
-                                <rect key="frame" x="16" y="20" width="343" height="20"/>
+                                <rect key="frame" x="16" y="116" width="343" height="20"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="lAW-2O-E7J"/>
                                 </constraints>
                             </activityIndicatorView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="X8P-RL-OwI">
+                                <rect key="frame" x="0.0" y="591" width="375" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="27" id="O9f-Ja-Ygx"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Business"/>
+                                    <segment title="Entertainment/Environment"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentedControlChanged:" destination="8rJ-Kc-sve" eventType="valueChanged" id="vJw-QH-IC0"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Lis-JP-sWT" firstAttribute="top" secondItem="QS5-Rx-YEW" secondAttribute="top" id="26c-vA-bQA"/>
+                            <constraint firstItem="GZX-PJ-hbt" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" constant="8" id="3CS-24-zYI"/>
                             <constraint firstItem="X8P-RL-OwI" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" id="5LL-UE-Sd7"/>
-                            <constraint firstItem="Lis-JP-sWT" firstAttribute="trailing" secondItem="X8P-RL-OwI" secondAttribute="trailing" id="9UT-8I-RwU"/>
+                            <constraint firstItem="Lis-JP-sWT" firstAttribute="trailing" secondItem="O1u-W8-tvY" secondAttribute="trailing" id="9I1-3f-TTi"/>
                             <constraint firstItem="O1u-W8-tvY" firstAttribute="trailing" secondItem="X8P-RL-OwI" secondAttribute="trailing" id="Iww-6A-ZGp"/>
-                            <constraint firstItem="X8P-RL-OwI" firstAttribute="top" secondItem="GZX-PJ-hbt" secondAttribute="bottom" constant="8" symbolic="YES" id="Nxo-2o-JWI"/>
+                            <constraint firstItem="mFL-rd-BI4" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" id="Lws-Fu-M9k"/>
                             <constraint firstItem="X8P-RL-OwI" firstAttribute="bottom" secondItem="O1u-W8-tvY" secondAttribute="bottom" id="Oxl-eq-eca"/>
-                            <constraint firstItem="GZX-PJ-hbt" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" constant="8" id="WUv-oH-ZwX"/>
-                            <constraint firstItem="1hJ-yC-ttm" firstAttribute="top" secondItem="O1u-W8-tvY" secondAttribute="top" id="Xib-EG-utL"/>
+                            <constraint firstItem="mFL-rd-BI4" firstAttribute="top" secondItem="Lis-JP-sWT" secondAttribute="bottom" id="Qpi-lb-YVL"/>
+                            <constraint firstItem="1hJ-yC-ttm" firstAttribute="top" secondItem="O1u-W8-tvY" secondAttribute="top" constant="96" id="Xib-EG-utL"/>
+                            <constraint firstItem="O1u-W8-tvY" firstAttribute="trailing" secondItem="GZX-PJ-hbt" secondAttribute="trailing" constant="8" id="Y2O-6r-SBU"/>
                             <constraint firstItem="1hJ-yC-ttm" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" constant="16" id="bye-dj-JAs"/>
-                            <constraint firstItem="GZX-PJ-hbt" firstAttribute="centerX" secondItem="X8P-RL-OwI" secondAttribute="centerX" id="nva-Ns-Z9V"/>
+                            <constraint firstAttribute="trailing" secondItem="mFL-rd-BI4" secondAttribute="trailing" id="ebY-rH-OHm"/>
+                            <constraint firstItem="X8P-RL-OwI" firstAttribute="top" secondItem="GZX-PJ-hbt" secondAttribute="bottom" constant="8" id="hBY-FA-cYT"/>
+                            <constraint firstItem="GZX-PJ-hbt" firstAttribute="top" secondItem="mFL-rd-BI4" secondAttribute="bottom" id="nVo-5A-dbZ"/>
                             <constraint firstItem="O1u-W8-tvY" firstAttribute="trailing" secondItem="1hJ-yC-ttm" secondAttribute="trailing" constant="16" id="pg5-nq-MO5"/>
-                            <constraint firstItem="Lis-JP-sWT" firstAttribute="leading" secondItem="X8P-RL-OwI" secondAttribute="leading" id="sYz-4o-Oo2"/>
-                            <constraint firstItem="GZX-PJ-hbt" firstAttribute="top" secondItem="Lis-JP-sWT" secondAttribute="bottom" constant="8" symbolic="YES" id="wAW-e4-PTQ"/>
+                            <constraint firstItem="mFL-rd-BI4" firstAttribute="top" secondItem="Lis-JP-sWT" secondAttribute="bottom" id="qWM-Xd-p7W"/>
+                            <constraint firstItem="Lis-JP-sWT" firstAttribute="top" secondItem="QS5-Rx-YEW" secondAttribute="top" id="sFL-zC-wU7"/>
+                            <constraint firstItem="Lis-JP-sWT" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" id="zlk-Sj-NaW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
                     </view>

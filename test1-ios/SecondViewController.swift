@@ -138,6 +138,8 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let feed = feedsForIndex(indexPath: indexPath)
         if let content = feed?.description {
+            let settings = UserDefaults()
+            settings.set(feed?.title, forKey: "selectedtitle")
             self.feedDetails.isHidden = false
             self.feedDetails.loadHTMLString(content, baseURL: nil)
 /*

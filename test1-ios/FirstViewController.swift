@@ -15,6 +15,8 @@ class FirstViewController: UIViewController {
     
     @IBOutlet weak var currentDateDisplay: UILabel!
     @IBOutlet weak var clock: Clocket!
+    @IBOutlet weak var lastSelectedFeedLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         clock.displayRealTime = true
@@ -23,6 +25,15 @@ class FirstViewController: UIViewController {
         let date = Date()
         let formattedDate = DateFormatter.localizedString(from: date, dateStyle: .full, timeStyle: .none)
         currentDateDisplay.text = formattedDate
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let settings = UserDefaults()
+        
+        if let lastSelectedTitle = settings.string(forKey: "selectedtitle") {
+            self.lastSelectedFeedLabel.text = lastSelectedTitle
+        }
     }
 
 
