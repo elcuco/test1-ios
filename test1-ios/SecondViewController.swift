@@ -8,15 +8,19 @@
 
 import UIKit
 import FeedKit
+import WebKit
 
-class SecondViewController: UIViewController, UITableViewDataSource {
+class SecondViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var mainTable: UITableView!
+    @IBOutlet weak var feedDetails: WKWebView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         mainTable.dataSource = self
+        mainTable.delegate = self
         
         fetchBuisinessRss()
     }
@@ -39,8 +43,13 @@ class SecondViewController: UIViewController, UITableViewDataSource {
     var feedItems: [String: [RSSFeedItem]] = [:]
 
     func fetchFeed( _ name: String) {
-        print("Start loading " + name  )
-        
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+
+        feeds[name] = nil
+        feedItems[name] = nil
+        mainTable.reloadData()
+
         // OK - FAIL
         // why http? why Reuters does not support HTTPS for these feeds, so
         // I am forced to allow http for the that domain.
@@ -54,12 +63,9 @@ class SecondViewController: UIViewController, UITableViewDataSource {
         let feedURL = URL(string: url)!
         let parser = FeedParser(URL: feedURL)
         parser.parseAsync(queue: DispatchQueue.global(qos: .userInitiated)) { (result) in
-            print("Finish loading " + name  )
-            
             // in theory - we don't need this. But I am keeping it,
             // just in case... Probably a mistake
             self.feeds[name] = result.rssFeed
-            
             self.feedItems[name] = result.rssFeed?.items
             
             // and this is the epic hack - I merge both feeds into one
@@ -67,6 +73,8 @@ class SecondViewController: UIViewController, UITableViewDataSource {
                 (self.feeds["entertainment"]??.items ?? []) +
                 (self.feeds["environment"]??.items ?? [])
             DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
+                self.activityIndicator.isHidden = true
                 self.mainTable.reloadData()
             }
         }
@@ -127,6 +135,20 @@ class SecondViewController: UIViewController, UITableViewDataSource {
         return cell
     }
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let feed = feedsForIndex(indexPath: indexPath)
+        if let content = feed?.content?.contentEncoded {
+            self.feedDetails.isHidden = false
+            self.feedDetails.loadHTMLString(content, baseURL: nil)
+            if let link = feed?.link {
+                let request = URLRequest(url: URL(string: link)!)
+//                self.feedDetails.load(request)
+            }
+        } else {
+            self.feedDetails.isHidden = true
+        }
+    }
+    
     func feedsForIndex(indexPath: IndexPath) -> RSSFeedItem? {
         switch self.segmentedControl.selectedSegmentIndex {
         case 0:

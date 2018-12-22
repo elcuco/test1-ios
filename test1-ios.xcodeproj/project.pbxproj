@@ -46,6 +46,7 @@
 		F118438921CBACF100EE4DF0 /* test1-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "test1-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F118438D21CBACF100EE4DF0 /* test1_iosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test1_iosTests.swift; sourceTree = "<group>"; };
 		F118438F21CBACF100EE4DF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F1A3D57021CE505500DC53DA /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +83,7 @@
 		B4583109F85D63FFB720CC65 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F1A3D57021CE505500DC53DA /* WebKit.framework */,
 				89871C6F5698209C24C1A5D6 /* Pods_test1_ios.framework */,
 				3744ED890A24AAFBA6160FBB /* Pods_test1_iosTests.framework */,
 			);
