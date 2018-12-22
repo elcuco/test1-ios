@@ -12,6 +12,11 @@ import WebKit
 
 class SecondViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    // yes, swift recommendations are against using constants as capitals (like Java and C)
+    // I konw when to bend rules
+    static let MIXED = "mixed"
+    static let LAST_SELECTION = "selectedtitle"
+
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var mainTable: UITableView!
     @IBOutlet weak var feedDetails: WKWebView!
@@ -70,7 +75,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
             self.feedItems[name] = result.rssFeed?.items
             
             // and this is the epic hack - I merge both feeds into one
-            self.feedItems["mixed"] =
+            self.feedItems[SecondViewController.MIXED] =
                 (self.feeds["entertainment"]??.items ?? []) +
                 (self.feeds["environment"]??.items ?? [])
             DispatchQueue.main.async {
@@ -107,7 +112,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
             }
             return 0
         case 1:
-            if let feeds = self.feedItems["mixed"]  {
+            if let feeds = self.feedItems[SecondViewController.MIXED]  {
                 return feeds.count
             }
             return 0
@@ -139,18 +144,8 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let feed = feedsForIndex(indexPath: indexPath)
         if let content = feed?.description {
-            let settings = UserDefaults()
-            settings.set(feed?.title, forKey: "selectedtitle")
-            self.feedDetails.isHidden = false
+            SecondViewController.saveSelection(feed?.title)
             self.feedDetails.loadHTMLString(content, baseURL: nil)
-/*
-            if let link = feed?.link {
-                let request = URLRequest(url: URL(string: link)!)
-                self.feedDetails.load(request)
-            }
- */
-        } else {
-            self.feedDetails.isHidden = true
         }
     }
     
@@ -162,7 +157,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
             }
             break
         case 1:
-            if let feedItems = self.feedItems["mixed"] {
+            if let feedItems = self.feedItems[SecondViewController.MIXED] {
                 return feedItems[indexPath.row]
             }
             break
@@ -170,6 +165,16 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
             return nil
         }
         return nil
+    }
+    
+    static func saveSelection(_ title: String?) {
+        let settings = UserDefaults()
+        settings.set(title, forKey: SecondViewController.LAST_SELECTION)
+    }
+    
+    static func getLastSelection() -> String? {
+        let settings = UserDefaults()
+        return settings.string(forKey: SecondViewController.LAST_SELECTION)
     }
 }
 

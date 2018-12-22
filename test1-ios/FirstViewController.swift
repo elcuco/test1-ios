@@ -29,13 +29,7 @@ class FirstViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let settings = UserDefaults()
-        
-        if let lastSelectedTitle = settings.string(forKey: "selectedtitle") {
-            self.lastSelectedFeedLabel.text = lastSelectedTitle
-        }
+        self.lastSelectedFeedLabel.text = SecondViewController.getLastSelection()
     }
-
-
 }
 
