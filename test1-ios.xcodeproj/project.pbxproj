@@ -239,10 +239,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-test1-ios/Pods-test1-ios-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Clocket/Clocket.framework",
+				"${BUILT_PRODUCTS_DIR}/FeedKit/FeedKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Clocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FeedKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

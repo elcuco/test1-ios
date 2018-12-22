@@ -108,41 +108,35 @@ class SecondViewController: UIViewController, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "rssLine")!
         var text = "FAIL"
-        var subText = "...?"
-        var image = UIImage()
-        
+        var subText = "...?"        
+        if let item = feedsForIndex(indexPath: indexPath) {
+            text = item.title ?? "FAIL #\(indexPath.row)"
+            subText = item.description ?? ".."
+        }
+            
+        let cell = tableView.dequeueReusableCell(withIdentifier: "rssLine")!
+        cell.textLabel?.text = text
+        cell.detailTextLabel?.text = subText
+        return cell
+    }
+
+    func feedsForIndex(indexPath: IndexPath) -> RSSFeedItem? {
         switch self.segmentedControl.selectedSegmentIndex {
         case 0:
             if let feedItems = self.feedItems["businessNews"] {
-                text = feedItems[indexPath.row].title ?? "FAIL #\(indexPath.row)"
-                subText = feedItems[indexPath.row].description ?? ".."
-//                image = self.feeds["businessNews"]??.image?.url
+                return feedItems[indexPath.row]
             }
             break
         case 1:
             if let feedItems = self.feedItems["mixed"] {
-                text = feedItems[indexPath.row].title ?? "FAIL #\(indexPath.row)"
-                subText = feedItems[indexPath.row].description ?? ".."
-                
-                // ok, I admit this is ugly.. it will not scale.
-/*
-                image = indexPath.row < (self.feedItems["environment"]?.count ?? 0) ?
-                    self.feeds["environment"]??.image?.url :
-                    self.feeds["entertainment"]??.image?.url
- */
+                return feedItems[indexPath.row]
             }
             break
         default:
-            text = "Double FAIL #\(indexPath.row) -"
-            subText = "..."
+            return nil
         }
-            
-        cell.textLabel?.text = text
-        cell.detailTextLabel?.text = subText
-//        cell.imageView =
-        return cell
+        return nil
     }
 }
 
